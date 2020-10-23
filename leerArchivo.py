@@ -26,7 +26,7 @@ for i in range (11,len(alfabeto)):
         aux.append(alfabeto[i]) #agregar al auxiliar letra para formar la palabra
     
     else:
-        aux2 = " ".join(aux)
+        aux2 = " ".join(aux)        #convierte a String la lista
         caja.append(aux2)       #agregar al diccionario la palabra
         del aux[:]      #reinicio de auxiliar 
 print(caja)
