@@ -6,7 +6,7 @@ f = open("prueba.txt")
         
 for linea in f:
     if contador == 0:
-        alfabeto = linea[:-1]   #Sirve para quitar el salto de linea y que no se lea en las cadenas
+        alfabeto = linea 
         contador = contador + 1
 
     else:
@@ -22,7 +22,7 @@ print(alfabeto)
 caja=[]
 aux = []
 for i in range (11,len(alfabeto)):
-    if alfabeto[i] != "," and alfabeto[i] != ".":
+    if alfabeto[i] != "," and alfabeto[i] != "\n":
         aux.append(alfabeto[i]) #agregar al auxiliar letra para formar la palabra
     
     else:
