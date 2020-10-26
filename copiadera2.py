@@ -1,5 +1,6 @@
 import sys
 import difflib
+import os
 #---------------------------------------------------------------------------------------------------------------------------------------------#
 #FUNCIONES
 def union(elem1, elem2):
@@ -180,16 +181,31 @@ pila_F = ['n']
 
 thompson(lpos)
 #-----------------------------------------------------------------------------------------------------------------------------------------------#
+#Escribir a bloc de notas
+alfa = " ".join(alfabeto) 
+ppos = " ".join(lpos)
+pI = " ".join(pila_I[0])
+pF = " ".join(pila_F[0])
+file = open("C:/Users/KevinG/Desktop/5toSemestre/Compiladores/Python/Escribeme.txt","w")
+file.write("alfabeto: "+alfa+os.linesep)
+file.write("Postfija: "+ppos+os.linesep)
+file.write("    Tabla"+os.linesep)
+for i in range(0,len(lista_Trans)):
+    aux = " ".join(lista_Trans[i])
+    file.write("    "+aux+os.linesep)
 
-print ('a')
-print (alfabeto)
-
-print ('p')
-print (lpos)
-
-print ('t')
-print (lista_Trans)
-print ('afn')
-print (pila_I)
-print (pila_F)
-print ('e')
+file.write("AFN"+os.linesep)
+file.write(pI+" ")
+for i in range (1,len(pila_I)):
+    if i == len(pila_I)-1:
+        file.write(str(pila_I[i])+os.linesep)
+    else:
+        file.write(str(pila_I[i])+" ")
+file.write(pF+" ")
+for i in range (1,len(pila_F)):
+    if i == len(pila_F)-1:
+        file.write(str(pila_F[i]))
+        file.write(os.linesep)
+    else:
+        file.write(str(pila_F[i])+" ")
+file.close()
