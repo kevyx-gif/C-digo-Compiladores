@@ -1,2 +1,2 @@
 Alfabeto = a,b,c,letra,digito,.
-Expresion = (a|b)*
+Expresion = (a&b)*

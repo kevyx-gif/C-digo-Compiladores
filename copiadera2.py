@@ -86,7 +86,7 @@ def thompson (cadena):
             cont =cont+2
             cont2 = cont2+2
 
-        elif (c == '/'):
+        elif (c == '|'):
             union(cont, cont2)
             cont = cont+2
             cont2 = cont2+2
@@ -96,12 +96,17 @@ def thompson (cadena):
             cont = cont +2
             cont2 = cont2 +2
 
-        elif (c == '-'):
+        elif (c == '&'):
             conc ()
 
 #-----------------------------------------------------------------------------------------------------------------------------------------------#
 #Comienzo del programa
-
+'''Uso de simbolos para el automata
+        Union = |
+        Concatenacion = &
+        clausula de Klean = *
+        Cerradura positiva = +
+'''
 lpos = []
 alfabeto = []
 pila = ['n']
@@ -141,21 +146,21 @@ for i in expresion:
                 lpos.append(i)
             else:
                 pila.append(i)
-        elif (i == '-'):
+        elif (i == '&'):
 
             while (pila[len(pila)-1] == '+' or pila[len(pila)-1] == '*'):
                 lpos.append(pila.pop())
 
-            if (pila[len(pila)-1] =='-'):
+            if (pila[len(pila)-1] =='&'):
                 lpos.append(i)
             else:
                 pila.append (i)
 
-        elif (i == '/'):
+        elif (i == '|'):
 
-            while (pila[len(pila)-1] == '+' or pila[len(pila)-1] == '*' or pila[len(pila)-1] == '-'):
+            while (pila[len(pila)-1] == '+' or pila[len(pila)-1] == '*' or pila[len(pila)-1] == '&'):
                 lpos.append(pila.pop())
-            if (pila[len(pila)-1] == '/'):
+            if (pila[len(pila)-1] == '|'):
                 lpos.append (i)
             else:
                 pila.append(i)
