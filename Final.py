@@ -111,7 +111,7 @@ lpos = []
 alfabeto = []
 pila = ['n']
 
-expresion = "asa"
+
 #-----------------------------------------------------------------------------------------------------------------------------------------------#
 #Sacar de archivo
 contador = 0
@@ -191,7 +191,7 @@ alfa = " ".join(alfabeto)
 ppos = " ".join(lpos)
 pI = " ".join(pila_I[0])
 pF = " ".join(pila_F[0])
-file = open("C:/Users/KevinG/Desktop/5toSemestre/Compiladores/Python/Escribeme.txt","w")
+file = open("Escribeme.txt","w")
 file.write("alfabeto: "+alfa+os.linesep)
 file.write("Postfija: "+ppos+os.linesep)
 file.write("    Tabla"+os.linesep)
