@@ -8,5 +8,5 @@ Postfija: a b & *
     3 @ 0
     3 @ 5
 AFN
-n 4
 n 5
+n 4

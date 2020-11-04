@@ -11,7 +11,7 @@ layout = [  [sg.Text('Nombre del archivo')],
 
 window = sg.Window('Toma de archivo', layout)
 event, values = window.read()
-
+print(values[0])
 window.close()
 
 #DarkBrown
