@@ -55,4 +55,6 @@ for j in range (12,len(expresion)):
 
 print(expresion)
 print(ExpresionR)
+aux2 = " ".join(ExpresionR)
+print(aux2)
 

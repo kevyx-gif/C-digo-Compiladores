@@ -1,0 +1,6 @@
+int main ( ) {
+int i ;
+char a = "a" ;
+char b [ 6 ] = "string" ;
+printf ( "%d%d" , a , b [ 0 ] ) ;
+}

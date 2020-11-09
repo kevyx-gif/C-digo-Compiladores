@@ -1,3 +1,5 @@
+import PySimpleGUI as sg
+import os
 
 def buscar(x,y):
     bandera = 0
@@ -5,15 +7,41 @@ def buscar(x,y):
         if x.replace(" ", "") == y[i]:  #Replace quita los espacios en blanco
             bandera = 1
     return bandera
+#Leer archivo
+sg.theme('DarkAmber')  # please make your creations colorful
 
+layout = [  [sg.Text('Nombre del archivo')],
+            [sg.Input(), sg.FileBrowse()], 
+            [sg.OK(), sg.Cancel()]
+        ]
+
+
+window = sg.Window('Toma de archivo', layout)
+event, values = window.read()
+print(values[0])
+archivo = values[0]
+window.close()
+f = open(archivo)
+        #poner nombre del archivo que se va a abrir
+
+lista = ""
+contador = 0
+for linea in f:
+    if contador == 0:
+        lista = lista + linea.strip('\n')
+        contador = 1
+    lista = lista + " " + linea.strip('\n')
+             
+f.close()
+lista = lista + " "
 #Bibliotecas
-reservadas = ['printf','int','float','char','scan','main','return']
+reservadas = ['printf','int','float','char','scanf','main','return']
 relacionales = ['==','<=','>=','!=']
 logicos = ['&&','||']
 numerosB = ['1','2','3','4','5','6','7','8','9','0']
 
 cadena = "int main ( ) {          int a , b , c = 1 , 2 , 3 ;            float d = 4 ;   char x = \"h\" ;      printf ( \"%d%d%d\\n\" , a , b , c ) ; "
-cadena2 = "main ( ) { int i = 0 ; int b = i + 1 ; return 0 ; } "
+cadena2 = lista
 aux = []
 lista = []
 listaSC = []
@@ -65,6 +93,7 @@ lreservadas = []
 lparentesis = []
 numeros = []
 corchetes = []
+brackets = []
 #----------------------------------------------------------------------------------------------------------#
 #Sin comillas
 for i in range(0,len(listan)):
@@ -117,6 +146,9 @@ for i in range(0,len(listan)):
         #Numeros un digito
         elif p >= 48 and p <= 57:
             numeros.append(listan[i])
+        #brackets []
+        elif p == 91 or p == 93:
+            brackets.append(listan[i])
 
 #Impresiones
 print("Reservadas=",lreservadas)
@@ -126,14 +158,18 @@ print("Relacionales=",loprelacional)
 print("Parentesis=",lparentesis)
 print("Corchetes",corchetes)
 print("Numeros",numeros)
+print("Brackets",brackets)
 #----------------------------------------------------------------------------------------------------------#
 #Con comillas
+
 for i in range(0,len(listanSC)):
-    if len(listanSC) > 1:
-        lcadena.append(listanSC)
+    p = listanSC[i].replace(" ", "")
+
+    if len(p) > 3:
+        lcadena.append(p)
     
-    elif len(listanSC) == 1:
-        lcaracter.append(listanSC)
+    elif len(p) == 3:
+        lcaracter.append(p)
 
 print("Cadenas=",lcadena)
 print("Caracteres=",lcaracter)
