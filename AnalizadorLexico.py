@@ -1,6 +1,23 @@
 import PySimpleGUI as sg
 import os
 
+def lin(x):
+    aux = []
+    ulti = []
+    for i in range (0,len(x)):
+        if x[i] == "•":
+            aux2 = " ".join(aux)
+            ulti.append(aux2)
+        
+        elif i == len(x)-1:
+            aux2 = " ".join(x[i])
+            ulti.append(aux2)
+
+        else:
+            aux.append(x[i])
+    return ulti
+
+
 def buscar(x,y):
     bandera = 0
     for i in range(0,len(y)):
@@ -23,14 +40,17 @@ archivo = values[0]
 window.close()
 f = open(archivo)
         #poner nombre del archivo que se va a abrir
-
+fila = 0
 lista = ""
 contador = 0
 for linea in f:
     if contador == 0:
-        lista = lista + linea.strip('\n')
+        lista = lista + linea.strip('\n') + " #"+str(fila)
         contador = 1
-    lista = lista + " " + linea.strip('\n')
+        fila = fila + 1 
+    else:
+        lista = lista + " " + linea.strip('\n')+" #"+str(fila)
+        fila = fila + 1 
              
 f.close()
 lista = lista + " "
@@ -39,6 +59,7 @@ reservadas = ['printf','int','float','char','scanf','main','return']
 relacionales = ['==','<=','>=','!=']
 logicos = ['&&','||']
 numerosB = ['1','2','3','4','5','6','7','8','9','0']
+errores = ['@','?','¡','¿','~']
 
 cadena = "int main ( ) {          int a , b , c = 1 , 2 , 3 ;            float d = 4 ;   char x = \"h\" ;      printf ( \"%d%d%d\\n\" , a , b , c ) ; "
 cadena2 = lista
@@ -46,13 +67,14 @@ aux = []
 lista = []
 listaSC = []
 i = 0
-
+cfila = 0
+print(cadena2)
 #----------------------------------------------------------------------------------------------------------#
 #Separar Strings,char de todo lo demas
 while (i < len(cadena2) ):
     
     #Acumular letras por si son mas de 1 y guardarlas en un aux
-    if cadena2[i] != " " and cadena2[i] != "\"":
+    if cadena2[i] != " " and cadena2[i] != "\"" and cadena2[i] != "#":
         aux.append(cadena2[i])
 
     #Si se detecta que tiene comillas al inicio se ira como String o caracter
@@ -62,24 +84,29 @@ while (i < len(cadena2) ):
             aux.append(cadena2[j])
             j = j + 1
 
-        aux2 = " ".join(aux)
-        listaSC.append(aux2)
+        aux2 = "".join(aux)
+        listaSC.append(aux2+"•"+str(cfila))
         del aux[:]
         i = j
       
     #Si llega a un espacio , lo que tiene aux se agrega a la lista de 1 a mas caracteres en aux
     elif cadena2[i] == " ":
-        aux2 = " ".join(aux)
-        lista.append(aux2)
+        if aux[0] != "#":
+            aux2 = "".join(aux)
+            lista.append(aux2+"•"+str(cfila))
         del aux[:]
+
+    elif cadena2[i] == "#":
+        aux.append(cadena2[i])
+        cfila = cfila + 1
 
     i = i +1 
 
 #----------------------------------------------------------------------------------------------------------#
 #Tener listas para ir separando de acuerdo a lo que son
 
-listan = list(set(lista)) #Quitar objetos repetidos de la lista
-listanSC = list(set(listaSC))  #Quitar objetos repetidos de la listaSC
+listan = lista      
+listanSC = listaSC         
 print("Sin comillas",listan)
 print("Con comillas",listaSC)
 
@@ -94,61 +121,71 @@ lparentesis = []
 numeros = []
 corchetes = []
 brackets = []
+error = []
 #----------------------------------------------------------------------------------------------------------#
 #Sin comillas
 for i in range(0,len(listan)):
     #lsita tamaño > 1
-    if len(listan[i]) > 1:
-        y = buscar(listan[i],reservadas)
-        x = buscar(listan[i],relacionales)
-        z = buscar(listan[i],logicos)
-        n = buscar(listan[i],numerosB)
+    palabra = lin(listan[i])
+    if len(listan[i]) > 3:
+        y = buscar(palabra[0],reservadas)
+        x = buscar(palabra[0],relacionales)
+        z = buscar(palabra[0],logicos)
+        n = buscar(palabra[0],numerosB)
+        k = buscar(palabra[0][0],errores)
         #----------------------------------#
         #buscar palabras reservadas
         if y == 1:
-            lreservadas.append(listan[i])
+            lreservadas.append(palabra)
         #buscar operaciones relacionales <= , >= , == , !=
         elif x == 1:
-            loprelacional.append(listan[i])
+            loprelacional.append(palabra)
         #buscar operaciones logicos && , ||
         elif z == 1:
-            loplogico.append(listan[i])
+            loplogico.append(palabra)
         #buscar numeros de mas de dos digitos 1234
         elif n == 1:
-            numeros.append(listan[i])
+            numeros.append(palabra)
+
+        elif k == 1:
+            error.append(palabra)
 
         else:
-            lidentificador.append(listan[i])
+            lidentificador.append(palabra)
 
         
     #lista tamaño == 1
-    elif len(listan[i]) == 1:
-        p = ord(listan[i])
+    elif len(listan[i]) == 3:
+        p = ord(palabra[0])
         #----------------------------------#
         #letras
         if p >= 65 and p <= 90 or p >= 97 and p <= 122:
-            lidentificador.append(listan[i])
+            lidentificador.append(palabra)
         #----------------------------------#
         #parentesis
         elif p == 40 or p == 41:
-            lparentesis.append(listan[i])
+            lparentesis.append(palabra)
         #----------------------------------#
         #aritmeticos
         elif p == 42 or p == 43 or p == 45 or p == 47:
-            lopAritmetico.append(listan[i])
+            lopAritmetico.append(palabra)
         #----------------------------------#
         #Relacionales
         elif p >= 60 and p <= 62:
-            loprelacional.append(listan[i])
+            loprelacional.append(palabra)
         #corchetes
         elif p == 123 or p == 125:
-            corchetes.append(listan[i])
+            corchetes.append(palabra)
         #Numeros un digito
         elif p >= 48 and p <= 57:
-            numeros.append(listan[i])
+            numeros.append(palabra)
         #brackets []
         elif p == 91 or p == 93:
-            brackets.append(listan[i])
+            brackets.append(palabra)
+
+        #errores ['@','?','¡','¿','~']
+        elif p == 64 or p== 63 or p == 141 or p == 168  or p == 126:
+            error.append(palabra)
 
 #Impresiones
 print("Reservadas=",lreservadas)
@@ -159,17 +196,18 @@ print("Parentesis=",lparentesis)
 print("Corchetes",corchetes)
 print("Numeros",numeros)
 print("Brackets",brackets)
+print("Errores",error)
 #----------------------------------------------------------------------------------------------------------#
 #Con comillas
 
 for i in range(0,len(listanSC)):
-    p = listanSC[i].replace(" ", "")
+    palabra = lin(listanSC[i])
 
-    if len(p) > 3:
-        lcadena.append(p)
+    if len(palabra[0]) > 5:
+        lcadena.append(palabra)
     
-    elif len(p) == 3:
-        lcaracter.append(p)
+    elif len(palabra[0]) == 5:
+        lcaracter.append(palabra)
 
 print("Cadenas=",lcadena)
 print("Caracteres=",lcaracter)
