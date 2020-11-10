@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+#-*-coding utf: -8-*-
 import PySimpleGUI as sg
 import os
 
@@ -55,11 +57,12 @@ for linea in f:
 f.close()
 lista = lista + " "
 #Bibliotecas
-reservadas = ['printf','int','float','char','scanf','main','return']
+reservadas = ['printf','int','float','char','scanf','main','return','for']
 relacionales = ['==','<=','>=','!=']
 logicos = ['&&','||']
 numerosB = ['1','2','3','4','5','6','7','8','9','0']
 errores = ['@','?','¡','¿','~']
+arti = ['++']
 
 cadena = "int main ( ) {          int a , b , c = 1 , 2 , 3 ;            float d = 4 ;   char x = \"h\" ;      printf ( \"%d%d%d\\n\" , a , b , c ) ; "
 cadena2 = lista
@@ -130,6 +133,7 @@ for i in range(0,len(listan)):
         z = buscar(palabra[0],logicos)
         n = buscar(palabra[0],numerosB)
         k = buscar(palabra[0][0],errores)
+        ll = buscar(palabra[0],arti)
         #----------------------------------#
         #buscar palabras reservadas
         if y == 1:
@@ -143,9 +147,12 @@ for i in range(0,len(listan)):
         #buscar numeros de mas de dos digitos 1234
         elif n == 1:
             numeros.append(palabra)
-
+        #buscar errores
         elif k == 1:
             error.append(palabra)
+        #buscar ++ como artimetico
+        elif ll == 1:
+            lopAritmetico.append(palabra)
 
         else:
             lidentificador.append(palabra)
@@ -198,6 +205,7 @@ for i in range(0,len(listanSC)):
 
 if event == 'OK':
         MLINE_KEY = '-ML-'+sg.WRITE_ONLY_KEY 
+        sg.Popup("Warning para leer esto :\n [ 'palabra' , linea ]")
         sg.Popup("Reservadas=",lreservadas)
         sg.Popup("identificadores=",lidentificador)
         sg.Popup("Aritmeticos=",lopAritmetico)

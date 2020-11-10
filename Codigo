@@ -2,5 +2,8 @@ int main ( ) {
 int i ; @@@
 char a = "a" ;
 char b [ 6 ] = "string" ;
+for ( a ; b < i ; a ++ ) {
+printf ( "hola" ) ;
+}
 printf ( "%d%d" , a , b [ 0 ] ) ;
 }
