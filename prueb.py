@@ -29,3 +29,17 @@ f.close()
 lista = lista + " "
 
 print("lista=",lista[len(lista)-1])
+
+file = open('lexico.txt','w')
+f.write("Reservadas=",lreservadas)
+f.write("identificadores=",lidentificador)
+f.write("Aritmeticos=",lopAritmetico)
+f.write("Relacionales=",loprelacional)
+f.write("Parentesis=",lparentesis)
+f.write("Corchetes",corchetes)
+f.write("Numeros",numeros)
+f.write("Brackets",brackets)
+f.write("Errores",error)
+f.write("Cadenas=",lcadena)
+f.write("Caracteres=",lcaracter)
+file.close()

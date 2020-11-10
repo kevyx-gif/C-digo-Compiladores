@@ -68,7 +68,6 @@ lista = []
 listaSC = []
 i = 0
 cfila = 0
-print(cadena2)
 #----------------------------------------------------------------------------------------------------------#
 #Separar Strings,char de todo lo demas
 while (i < len(cadena2) ):
@@ -107,8 +106,6 @@ while (i < len(cadena2) ):
 
 listan = lista      
 listanSC = listaSC         
-print("Sin comillas",listan)
-print("Con comillas",listaSC)
 
 lidentificador = []
 lcadena = []
@@ -187,16 +184,6 @@ for i in range(0,len(listan)):
         elif p == 64 or p== 63 or p == 141 or p == 168  or p == 126:
             error.append(palabra)
 
-#Impresiones
-print("Reservadas=",lreservadas)
-print("identificadores=",lidentificador)
-print("Aritmeticos=",lopAritmetico)
-print("Relacionales=",loprelacional)
-print("Parentesis=",lparentesis)
-print("Corchetes",corchetes)
-print("Numeros",numeros)
-print("Brackets",brackets)
-print("Errores",error)
 #----------------------------------------------------------------------------------------------------------#
 #Con comillas
 
@@ -209,5 +196,24 @@ for i in range(0,len(listanSC)):
     elif len(palabra[0]) == 5:
         lcaracter.append(palabra)
 
-print("Cadenas=",lcadena)
-print("Caracteres=",lcaracter)
+if event == 'OK':
+        MLINE_KEY = '-ML-'+sg.WRITE_ONLY_KEY 
+        sg.Popup("Reservadas=",lreservadas)
+        sg.Popup("identificadores=",lidentificador)
+        sg.Popup("Aritmeticos=",lopAritmetico)
+        sg.Popup("Relacionales=",loprelacional)
+        sg.Popup("Parentesis=",lparentesis)
+        sg.Popup("Corchetes",corchetes)
+        sg.Popup("Numeros",numeros)
+        sg.Popup("Brackets",brackets)
+        sg.Popup("Errores",error)
+        sg.Popup("Cadenas=",lcadena)
+        sg.Popup("Caracteres=",lcaracter)
+        layoutt= [[sg.Multiline("Terminado", size=(20,2), key=MLINE_KEY)],
+            [sg.Button('OK')]]
+        windows = sg.Window('resultados',layoutt)  
+        while True:             # Event Loop
+            evento, values = windows.read()
+            if evento in (sg.WIN_CLOSED, 'OK'):
+                break
+        windows.close()
