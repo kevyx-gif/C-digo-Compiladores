@@ -1,0 +1,8 @@
+int main ( ) {
+int i = 5 ;
+int n ;
+for ( n = 0 ; n < i ; n ++ ) {
+printf ( "%d" , n ) @
+}
+return 0 ;
+}

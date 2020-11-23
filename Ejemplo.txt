@@ -1,0 +1,7 @@
+Ejemplo de entrada:
+E -> E + T
+E -> T
+T -> T * F
+F -> id
+F -> nint
+F -> ( E )

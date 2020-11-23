@@ -1,0 +1,13 @@
+Siguientes(1) = {E E + T}
+Siguientes(2) = {E T}
+Siguientes(3) = {T T * F}
+Siguientes(4) = {F id}
+Siguientes(5) = {F nint}
+Siguientes(6) = {F ( E )}
+
+Primeros(1) = {E E + T}
+Primeros(2) = {E T}
+Primeros(3) = {T T * F}
+Primeros(4) = {F id}
+Primeros(5) = {F nint}
+Primeros(6) = {F ( E )}

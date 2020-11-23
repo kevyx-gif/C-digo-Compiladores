@@ -105,6 +105,7 @@ def main (args):
 
 #------------------------------------------------------------------------------------------------------------------------------------------------#
     #Escribir a bloc de notas
+    print(alfabeto)
     alfa = " ".join(alfabeto) 
     ppos = " ".join(lpos)
     pI = " ".join(pila_I[0])

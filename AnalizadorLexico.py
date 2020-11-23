@@ -55,17 +55,19 @@ for linea in f:
 f.close()
 lista = lista + " "
 #Bibliotecas
-reservadas = ['printf','int','float','char','scanf','main','return']
+reservadas = ['printf','int','float','char','scanf','main','return','for']
 relacionales = ['==','<=','>=','!=']
 logicos = ['&&','||']
 numerosB = ['1','2','3','4','5','6','7','8','9','0']
 errores = ['@','?','¡','¿','~']
+arti = ['++','--']
 
 cadena = "int main ( ) {          int a , b , c = 1 , 2 , 3 ;            float d = 4 ;   char x = \"h\" ;      printf ( \"%d%d%d\\n\" , a , b , c ) ; "
 cadena2 = lista
 aux = []
 lista = []
 listaSC = []
+sim=[]
 i = 0
 cfila = 0
 #----------------------------------------------------------------------------------------------------------#
@@ -130,6 +132,7 @@ for i in range(0,len(listan)):
         z = buscar(palabra[0],logicos)
         n = buscar(palabra[0],numerosB)
         k = buscar(palabra[0][0],errores)
+        q = buscar(palabra[0],arti)
         #----------------------------------#
         #buscar palabras reservadas
         if y == 1:
@@ -147,8 +150,12 @@ for i in range(0,len(listan)):
         elif k == 1:
             error.append(palabra)
 
+        elif q == 1:
+            lopAritmetico.append(palabra)
+
         else:
             lidentificador.append(palabra)
+            sim.append(palabra)
 
         
     #lista tamaño == 1
@@ -158,6 +165,7 @@ for i in range(0,len(listan)):
         #letras
         if p >= 65 and p <= 90 or p >= 97 and p <= 122:
             lidentificador.append(palabra)
+            sim.append(palabra)
         #----------------------------------#
         #parentesis
         elif p == 40 or p == 41:
@@ -209,6 +217,7 @@ if event == 'OK':
         sg.Popup("Errores",error)
         sg.Popup("Cadenas=",lcadena)
         sg.Popup("Caracteres=",lcaracter)
+        sg.Popup("Simbolos=",sim)
         layoutt= [[sg.Multiline("Terminado", size=(20,2), key=MLINE_KEY)],
             [sg.Button('OK')]]
         windows = sg.Window('resultados',layoutt)  
