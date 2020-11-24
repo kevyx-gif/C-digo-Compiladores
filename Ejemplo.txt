@@ -2,6 +2,6 @@ Ejemplo de entrada:
 E -> E + T
 E -> T
 T -> T * F
-F -> id
-F -> nint
+T -> F
 F -> ( E )
+F -> id
