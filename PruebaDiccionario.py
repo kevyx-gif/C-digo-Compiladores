@@ -27,6 +27,8 @@ def main():
         else:
             linea = linea.replace('\n',' ')
             aux.append(linea)
+    letraAux = aux[0][0]
+    aux.insert(0,letraAux+' -> '+letraAux+' $ ')
     print(aux)
     #---------------------------------------------------------------------------------------------------#
     #Lmpieza
@@ -36,11 +38,8 @@ def main():
     for i in range(0,len(aux)):
         for j in range(0,len(aux[i])):
             if aux[i][j] == " ":
-                print(aux3)
                 aux4 = "".join(aux3)
-                print(aux4)
                 aux2.append(aux4)
-                print(aux2)
                 del aux3[:]
             
             else:

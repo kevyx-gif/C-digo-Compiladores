@@ -1,0 +1,7 @@
+Primeros (D) = { float int }
+Primeros (L) = { , @ }
+Primeros (T) = { float int }
+
+Siguientes(D) = { $ }
+Siguientes(L) = { ; }
+Siguientes(T) = { id }

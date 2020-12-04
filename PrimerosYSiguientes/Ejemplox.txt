@@ -1,0 +1,41 @@
+Ejemplo de entrada:
+E -> E + T
+E -> T
+T -> T * F
+T -> F
+F -> ( E )
+F -> id
+
+D -> T id L ;
+L -> , id L
+L -> @
+T -> float
+T -> int
+
+S -> S ; S
+S -> id := E
+S -> print ( L )
+E -> id
+E -> num
+E -> E + E
+E -> ( S , E )
+L -> E
+L -> L , E
+
+len()>1
+A - Z
+Reglas={'1':["E","E","+","T"],'2':["E","T"],'3':["T","T","*","F"],'4':["T","F"],'5':["F","(","E",")"],'6':["F","id"]}
+Reglas={'1':['S','S',':','S'],'2':['S','id',':=','E'],'3':['S','print','(','L',')'],'4':['E','id'],'5':['E','num'],'6':['E','E','+','E'],'7':['E','(','S',',','E',')'],'8':['L','E'],'9':['L','L',',','E']}
+
+De acá se obtienen dos conjuntos No terminales(las letras mayusculas) y
+terminales(las cadenas como id, main, ninit,+,*,(, etc).
+
+Ejemplo de salida:
+Primeros(E) = { id, main, T}
+Primeros(id) = {id}
+Primeros(T)
+Primeros(F)
+
+Siguientes(E) = {jja dkdk sj}
+Siguientes(E) = {djsdj kskks}
+Siguentes(T) = { jsj dkdk sl}
