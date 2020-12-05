@@ -349,7 +349,6 @@ def Crear_Tabla (ListaColeccion, ListaTransiciones, ListaT, ListaNT, sig, reglas
 
         nuevoT = Tabla (i.numero, Ld)
         ListaTabla.append (nuevoT)
-    print(len(ListaTabla))
     return ListaTabla
             
 
@@ -366,19 +365,20 @@ def imprimirG(listaP,listaT,listaNT):
                 l1.append(l2[i])
         
         return l1
-
+    
+    #print(listaP[0].Ldestinos)
     raiz = Tk()
     raiz.resizable(0,0)
     raiz.title("prueba")
     raiz.geometry("1080x600")
     image2 =Image.open("fondo5.jpg")
     background_image = ImageTk.PhotoImage(image2)
-    
+    mainLabel = Label(image=background_image)
+    mainLabel.place(x=0, y=0, relwidth=1, relheight=1)
     #------------------------------------------------table-----------------------------------------------------------------------------------------#
     tablayaut = LabelFrame(raiz)
     tablayaut.pack(fill="both",expand=1)
     tablayaut.place(y=90,x=350,height=350,width=400)
-    
     #------------------------------------------------Scrolls-----------------------------------------------------------------------------------------#
     c=Canvas(tablayaut)
     c.pack(side="left",fill="both",expand=1)
@@ -386,187 +386,178 @@ def imprimirG(listaP,listaT,listaNT):
     yscrollbar= ttk.Scrollbar(tablayaut, orient=VERTICAL,command=c.yview,cursor="sb_v_double_arrow")
     yscrollbar.pack(side=RIGHT,fill=Y)
 
-    xscrollbar = ttk.Scrollbar(raiz, orient=HORIZONTAL,command=c.xview,cursor="sb_h_double_arrow")
+    xscrollbar = ttk.Scrollbar(mainLabel, orient=HORIZONTAL,command=c.xview,cursor="sb_h_double_arrow")
     xscrollbar.pack(side=BOTTOM,fill=X)
     xscrollbar.place(y=440,x=347,width=400)
 
     c.configure(yscrollcommand=yscrollbar.set, xscrollcommand=xscrollbar.set)  
 
     c.bind('<Configure>',lambda e: c.configure(scrollregion = c.bbox("all")))
-    
+
     myframe = Frame(c)
     c.create_window((0,0),window=myframe,anchor='nw')
-    
+
     #listaP = ['id','*','op','+','-','/','(',')','jg','E','T','F']
     #listaNT = ['E','T','F']
     #listaT = ['id','*','op','+','-','/','(',')','jg']
     #----------------------------------------------------Agregar a tabla---------------------------------------------------------------------------#
     #---------------------------------------------------tabla construida----------------------------------------------------------------------------#
     listaU = unir(listaT,listaNT)
+    #print(listaT)
+    #print(listaNT)
     #tab2
     tab1=ttk.Treeview(myframe)
+    #print(len(listaU))
+    #print(len(listaP[0].Ldestinos))
+    #print(listaP[0].Ldestinos)
     for row in range(len(listaP)):
-        for column in range(len(listaP[row].Ldestinos)):
-            print(row,column)
+        for column in range(len(listaP[0].Ldestinos)):
+            label=Label(tab1,text=listaP[row].Ldestinos[column],fg="white",bg="black")
+            label.config(font=('Arial',10))
+            label.grid(row=row,column=column,sticky="nsew",padx=1,pady=1)
+            tab1.grid_columnconfigure(column,weight=1)
 
-    
     tab1.pack(fill=BOTH,side=TOP)
-    bton =Button(raiz,text="Cerrar",width=10,command=Cerrar, cursor="hand2")
+    bton =Button(mainLabel,text="Cerrar",width=10,command=Cerrar, cursor="hand2")
     bton.pack(fill=BOTH)
     bton.place(x=495 , y=500)
     raiz.mainloop()
 
-def txt():
-    def abrir():
-        Reglas={}
-        Reglas2={}
-        auxx2=[]
-        auxx =[]
-        cont = 0
-        archivo=filedialog.askopenfile()
-        lines = archivo.read()
-        for linea in lines:
-            if cont != 0:
-                if linea == "\n":
-                    auxx3 = linea.replace('\n',' ')
-                    auxx.append(auxx3)
-                    auxx4=auxx.copy()
-                    auxx2.append(auxx4)
-                    del auxx[:]
-                else:
-                    auxx.append(linea)
-
-        
-            elif linea=="\n":
-                cont = cont +1 
-        auxx5=[]
-        for i in auxx2:
-            auxx6="".join(i)
-            auxx5.append(auxx6)
-        print(auxx5)
-        #-----------------------------------------------------------------------------------------------#
-        letraAux = auxx5[0][0]
-        ax = auxx5.copy()
-        ax.insert(0,letraAux+' -> '+letraAux+' $ ')
-        #---------------------------------------------------------------------------------------------------#
-        #Lmpieza
-        cadenas = []
-        aux2 = []
-        aux3 = []
-        for i in range(0,len(auxx5)):
-            for j in range(0,len(auxx5[i])):
-                if auxx5[i][j] == " ":
-                    aux4 = "".join(aux3)
-                    aux2.append(aux4)
-                    del aux3[:]
-            
-                else:
-                    aux3.append(auxx5[i][j])
-            aux5=aux2.copy()
-            aux5.remove("->")
- 
-            cadenas.append(aux5)
-            del aux2[:]
-        #Limpieza2
-        cadenas2 = []
-        aux6 = []
-        aux7= []
-        for k in range (0,len(ax)):
-            for m in range (0,len(ax[k])):
-                if ax[k][m] == " ":
-                    aux8 ="".join(aux7)
-                    aux6.append(aux8)
-                    del aux7[:]
-        
-                else:
-                    aux7.append(ax[k][m])
-            aux9=aux6.copy()
-            aux9.remove("->")
-            cadenas2.append(aux9)
-            del aux6[:]
-
-        print(cadenas)
-        print(cadenas2)
-        #---------------------------------------------------------------------------------------------------#
-        #Pasar a diccionarios  
-        #1
-        for i in range (0,len(cadenas)):
-            num=str(i+1)
-            cadena=" ".join(cadenas[i])
-            valor=cadena.split(sep=" ")
-            dicci=dict(zip([num],[valor]))
-            Reglas.update(dicci)
-
-        for key in Reglas:
-            print(key,":",Reglas[key])
-        print("Reglas 2")
-        #2
-        for j in range (0,len(cadenas2)):
-            num2=str(j)
-            cadena2=" ".join(cadenas2[j])
-            valor2=cadena2.split(sep=" ")
-            dicci2=dict(zip([num2],[valor2]))
-            Reglas2.update(dicci2)
-
-
-        for key2 in Reglas2:
-            print(key2,":",Reglas2[key2])
-
-        #---------------------------------------------------------------------------------------------------#
-        #pasar a terminales y no terminales
-        terminales = []
-        Nterminales = []
-        for i in range(0,len(cadenas)):
-            bandera = 0
-            for j in  range(0,len(cadenas[i])):
-                if bandera == 0:
-                    Nterminales.append(cadenas[i][j])
-                    bandera = bandera + 1
-                else:
-                    if len(cadenas[i][j]) > 1:
-                        terminales.append(cadenas[i][j])
-                    elif len(cadenas[i][j]) == 1:
-                        p = ord(cadenas[i][j])
-                        if p < 65 or p > 90:
-                            terminales.append(cadenas[i][j])
-        conjNT=[]
-        for m in range(0,len(Nterminales)):
-            if((Nterminales[m] in conjNT)==False):
-                conjNT.append(Nterminales[m])
-        Ntermin = sorted(set(Nterminales))
-        print(Ntermin)
-        print (terminales)
-        listaNT= Ntermin
-        listaT=terminales
-        LGramatica = []
-        convertir_a_estados (LGramatica, Reglas)
-        Ltransiciones = []
-        C = coleccion_canonica (listaNT, LGramatica, Ltransiciones)
-        print(C)
-        sig = Siguientes (listaNT, Reglas2)
-        listaTabla = Crear_Tabla (C, Ltransiciones, listaT, listaNT, sig, Reglas)
-        print(len(listaTabla))
-
-        imprimirG(listaTabla,listaT,listaNT)
-        print("hola mundo")
-
-
-    ventana=Tk()
-    ventana.resizable(0,0)
-    image2 =Image.open("fondo3.jpg")
-    background_image = ImageTk.PhotoImage(image2)
-    mainLabel = Label(image=background_image)
-    mainLabel.place(x=0, y=0, relwidth=1, relheight=1)
-    ventana.geometry("300x100")
-    botonAbrir=Button(ventana,text="Seleccionar archivo", command=lambda : abrir())
-    botonAbrir.place(x=85,y=30)
-    ventana.mainloop()
-
-
 
 def main ():
-    txt()
-    
+    Reglas={}
+    Reglas2={}
+    aux=[]
+    cont = 0
+    f = open("Ejemplo.txt")
+    for linea in f:
+        if cont == 0:
+            cont = cont + 1
+        else:
+            linea = linea.replace('\n',' ')
+            aux.append(linea)
+    letraAux = aux[0][0]
+    ax = aux.copy()
+    ax.insert(0,letraAux+' -> '+letraAux+' $ ')
+    print(aux)
+    #---------------------------------------------------------------------------------------------------#
+    #Lmpieza
+    cadenas = []
+    aux2 = []
+    aux3 = []
+    for i in range(0,len(aux)):
+        for j in range(0,len(aux[i])):
+            if aux[i][j] == " ":
+                aux4 = "".join(aux3)
+                aux2.append(aux4)
+                del aux3[:]
+            
+            else:
+                aux3.append(aux[i][j])
+        aux5=aux2.copy()
+        aux5.remove("->")
+ 
+        cadenas.append(aux5)
+        del aux2[:]
+    #Limpieza2
+    cadenas2 = []
+    aux6 = []
+    aux7= []
+    for k in range (0,len(ax)):
+        for m in range (0,len(ax[k])):
+            if ax[k][m] == " ":
+                aux8 ="".join(aux7)
+                aux6.append(aux8)
+                del aux7[:]
+        
+            else:
+                aux7.append(ax[k][m])
+        aux9=aux6.copy()
+        aux9.remove("->")
+        cadenas2.append(aux9)
+        del aux6[:]
+
+    #print(cadenas)
+    #print(cadenas2)
+    #---------------------------------------------------------------------------------------------------#
+    #Pasar a diccionarios  
+    #1
+    for i in range (0,len(cadenas)):
+        num=str(i+1)
+        cadena=" ".join(cadenas[i])
+        valor=cadena.split(sep=" ")
+        dicci=dict(zip([num],[valor]))
+        Reglas.update(dicci)
+
+    #for key in Reglas:
+    #    print(key,":",Reglas[key])
+    #print("Reglas 2")
+    #2
+    for j in range (0,len(cadenas2)):
+        num2=str(j)
+        cadena2=" ".join(cadenas2[j])
+        valor2=cadena2.split(sep=" ")
+        dicci2=dict(zip([num2],[valor2]))
+        Reglas2.update(dicci2)
+
+
+    #for key2 in Reglas2:
+    #    print(key2,":",Reglas2[key2])
+
+    #---------------------------------------------------------------------------------------------------#
+    #pasar a terminales y no terminales
+    terminales = []
+    Nterminales = []
+    for i in range(0,len(cadenas)):
+        bandera = 0
+        for j in  range(0,len(cadenas[i])):
+            if bandera == 0:
+                Nterminales.append(cadenas[i][j])
+                bandera = bandera + 1
+            else:
+                if len(cadenas[i][j]) > 1:
+                    terminales.append(cadenas[i][j])
+                elif len(cadenas[i][j]) == 1:
+                    p = ord(cadenas[i][j])
+                    if p < 64 or p > 90 :
+                        terminales.append(cadenas[i][j])
+    conjNT=[]
+    for m in range(0,len(Nterminales)):
+        if((Nterminales[m] in conjNT)==False):
+            conjNT.append(Nterminales[m])
+    print(Nterminales)
+    print(terminales)
+    Ntermin = []
+    termin = []
+  
+    for i in Nterminales:
+        if i not in Ntermin:
+            Ntermin.append(i)
+
+    for i in terminales:
+        if i not in termin:
+            termin.append(i)
+
+    print(Ntermin)
+    print (termin)
+    listaNT = Ntermin
+    listaT = termin
+
+    #listaT = ["id", '+', '*', '(', ')']
+    #listaNT=['E','T','F']
+    #Reglas2={'1':["E","E","+","T"],'2':["E","T"],'3':["T","T","*","F"],'4':["T","F"],'5':["F","(","E",")"],'6':["F","id"]}
+    #Reglas={'0':["E'", "E", "$"],'1':["E","E","+","T"],'2':["E","T"],'3':["T","T","*","F"],'4':["T","F"],'5':["F","(","E",")"],'6':["F","id"]}
+    #listaNT=['D','L','T']
+    #listaT = ["id", ';', ',', '@', 'float','int']
+    #Reglas={'0': ["D'", "D", "$"], '1':['D','T',"id","L",";"],'2':['L',',','id','L'],'3':['L','@'],'4':["T","float"],'5':["T","int"]}
+    #Reglas2={'1':['D','T',"id","L",";"],'2':['L',',','id','L'],'3':['L','@'],'4':["T","float"],'5':["T","int"]}
+    LGramatica = []
+    convertir_a_estados (LGramatica, Reglas2)
+    Ltransiciones = []
+    C = coleccion_canonica (listaNT, LGramatica, Ltransiciones)
+    sig = Siguientes (listaNT, Reglas2)
+    listaTabla = Crear_Tabla (C, Ltransiciones, listaT, listaNT, sig, Reglas)
+    imprimirG(listaTabla,listaT,listaNT)
     
 
 if __name__ == '__main__':
