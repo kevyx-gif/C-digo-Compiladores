@@ -26,6 +26,13 @@ def buscar(x,y):
         if x.replace(" ", "") == y[i]:  #Replace quita los espacios en blanco
             bandera = 1
     return bandera
+
+def buscarN(x,y):
+    bandera = 0
+    for i in range(0,len(y)):
+        if x[0] == y[i]:
+            bandera = 1
+    return bandera
 #Leer archivo
 sg.theme('DarkAmber')  # please make your creations colorful
 
@@ -52,8 +59,7 @@ for linea in f:
         fila = fila + 1 
     else:
         lista = lista + " " + linea.strip('\n')+" #"+str(fila)
-        fila = fila + 1 
-             
+        fila = fila + 1
 f.close()
 lista = lista + " "
 #Bibliotecas
@@ -61,7 +67,6 @@ reservadas = ['printf','int','float','char','scanf','main','return','for']
 relacionales = ['==','<=','>=','!=']
 logicos = ['&&','||']
 numerosB = ['1','2','3','4','5','6','7','8','9','0']
-errores = ['@','?','¡','¿','~']
 arti = ['++','--']
 
 cadena = "int main ( ) {          int a , b , c = 1 , 2 , 3 ;            float d = 4 ;   char x = \"h\" ;      printf ( \"%d%d%d\\n\" , a , b , c ) ; "
@@ -73,7 +78,6 @@ listEr = []
 i = 0
 cfila = 0
 mini_lista = []
-print (cadena2)
 #----------------------------------------------------------------------------------------------------------#
 #Separar Strings,char de todo lo demas
 while (i < len(cadena2) ):
@@ -108,7 +112,6 @@ while (i < len(cadena2) ):
             del aux[:]
 
         i = j
-      
     #Si llega a un espacio , lo que tiene aux se agrega a la lista de 1 a mas caracteres en aux
     elif cadena2[i] == " ":
         aux2 = "".join(aux)
@@ -117,9 +120,9 @@ while (i < len(cadena2) ):
             x = buscar(aux2,reservadas)
             y = buscar(aux2,relacionales)
             z = buscar(aux2,logicos)
-            n = buscar(aux2,numerosB)
-            k = buscar(aux2,errores)
+            n = buscarN(aux2,numerosB)
             ll = buscar(aux2,arti)
+            p = ord(aux2[0])
             
 
             #----------------------------------#
@@ -164,16 +167,6 @@ while (i < len(cadena2) ):
 
                 del mini_lista[:]
                 del aux[:]
-            #buscar errores
-            elif k == 1:
-                mini_lista.append(str(cfila))
-                mini_lista.append(aux2)
-                mini_lista.append(aux2)
-                mlist = mini_lista.copy()
-                listEr.append(mlist)
-
-                del mini_lista[:]
-                del aux[:]
             #buscar ++ como artimetico
             elif ll == 1:
                 mini_lista.append(str(cfila))
@@ -184,6 +177,22 @@ while (i < len(cadena2) ):
 
                 del mini_lista[:]
                 del aux[:]
+            #Errores que tienen tamaño > 1
+            elif p < 65 or p > 90 and p < 97 or p > 122 :
+                mini_lista.append(str(cfila))
+                lista_Er = []
+                #Quitar repetidos de la lista de errores para impresion#
+                for ii in aux2:
+                    if ii not in lista_Er:
+                        lista_Er.append(ii) 
+                mini_lista.append("Error simbolos (\""+",".join(lista_Er)+"\") no definidos")
+                mlist = mini_lista.copy()
+                listEr.append(mlist)
+                del mini_lista[:]
+                del lista_Er[:]
+                del aux[:]
+
+
             #Buscar identificador
             else:
                 mini_lista.append(str(cfila))
@@ -253,7 +262,7 @@ while (i < len(cadena2) ):
             #Numeros un digito
             elif p >= 48 and p <= 57:
                 mini_lista.append(str(cfila))
-                mini_lista.append("Nint")
+                mini_lista.append("digito")
                 mini_lista.append(aux2)
                 mlist = mini_lista.copy()
                 lista.append(mlist)
@@ -269,11 +278,20 @@ while (i < len(cadena2) ):
                 del mini_lista[:]
                 del aux[:]
 
-            #errores ['@','?','¡','¿','~']
-            elif p == 64 or p== 63 or p == 141 or p == 168  or p == 126:
+            # [',' ';' ]
+            elif p== 59 or p==44 :
                 mini_lista.append(str(cfila))
                 mini_lista.append(aux2)
                 mini_lista.append(aux2)
+                mlist = mini_lista.copy()
+                lista.append(mlist)
+                del mini_lista[:]
+                del aux[:]
+            
+            #Errores
+            else:
+                mini_lista.append(str(cfila))
+                mini_lista.append("Error simbolo ("+aux2+") no definido")
                 mlist = mini_lista.copy()
                 listEr.append(mlist)
                 del mini_lista[:]
@@ -287,9 +305,39 @@ while (i < len(cadena2) ):
     i = i +1 
 axu4 = ['linea','token','lexema']
 lista.insert(0,axu4)
+#tabla errores
 aux4 = ['Tabla de errores']
 lista.append(aux4)
-lista.append(listEr)
+aux4 = ['Linea','Error']
+lista.append(aux4)
+for i in listEr:
+    lista.append(i)
+#tabla smbolos
+tabla_sim = []
+tab = []
+ij = 0
+ax = 'Tabla de errores'
+while ij < len(lista):
+    if lista[ij][0] == ax:
+        ij = len(lista)
+    elif lista[ij][1] == 'ID' and lista[ij+1][1] == "=":
+        tab.append(lista[ij][2])
+        tab.append(lista[ij+2][2])
+        tab.append("main")
+        tab2 = tab.copy()
+        tabla_sim.append(tab2)
+        del tab [:]
+        ij = ij + 3
+    else:
+        ij = ij + 1
+#meter tabla simbolos
+aux4 = ["Tabla de simbolos"]
+lista.append(aux4)
+aux4 = ["ID","Valor","funcion"]
+lista.append(aux4)
+for i in tabla_sim:
+    lista.append(i)
+
 for i in range(0,len(lista)):
     print(lista[i])
 #----------------------------------------------------------------------------------------------------------#

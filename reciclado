@@ -54,7 +54,7 @@
 
 
 
-                                        if row==0:
+            if row==0:
                 if (column ==0):
                     label=Label(tab1,text="EDO",fg="white",bg="black",compound="center",padx=3,pady=3 )
                     label.config(font=('Arial',12))

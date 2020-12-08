@@ -1,6 +1,8 @@
-Ejemplo de entrada:
-D -> T id L ;
-L -> , id L
-L -> @
-T -> float
-T -> int
+int main ( ) {
+    int a = 10 ;
+    string b = "hola" ;
+    for ( int i = 0 ; i < a ; i ++ ) {
+        printf ( "%d" , b ) ;
+    }
+    -> @ *@
+}

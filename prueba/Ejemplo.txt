@@ -1,0 +1,6 @@
+Ejemplo de entrada:
+D -> T id L ;
+L -> , id L
+L -> @
+T -> float
+T -> int
