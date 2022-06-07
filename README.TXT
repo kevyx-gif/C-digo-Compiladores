@@ -1,3 +1,5 @@
+#Compilador hecho en python
+
 Ejemplo de entrada:
 E -> E + T
 E -> T
@@ -21,3 +23,4 @@ E -> E + E
 E -> ( S , E )
 L -> E
 L -> L , E
+
